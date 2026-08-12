@@ -29,6 +29,21 @@
   }
   ::selection{background:var(--accent);color:var(--bg);}
 
+  /* ---------- PRELOADER ---------- */
+  #preloader{
+    position:fixed; inset:0; z-index:999;
+    background:var(--bg);
+    display:flex; align-items:center; justify-content:center;
+    transition:opacity .5s ease, visibility .5s ease;
+  }
+  #preloader.hide{opacity:0; visibility:hidden; pointer-events:none;}
+  #preloader img{
+    width:min(200px, 40vw);
+    height:auto;
+    display:block;
+  }
+  body.loading{overflow:hidden;}
+
   .eyebrow{
     font-family:'IBM Plex Mono', monospace;
     font-size:11px;
@@ -353,7 +368,11 @@
   }
 </style>
 </head>
-<body>
+<body class="loading">
+
+<div id="preloader">
+  <img src="assets/loading.gif" alt="загрузка">
+</div>
 
 <nav>
   <img src="assets/logo.png" alt="valera.">
@@ -439,6 +458,12 @@
     });
   }, {threshold:0.15});
   els.forEach(el=>io.observe(el));
+
+  setTimeout(()=>{
+    const preloader = document.getElementById('preloader');
+    preloader.classList.add('hide');
+    document.body.classList.remove('loading');
+  }, 2000);
 </script>
 
 </body>
